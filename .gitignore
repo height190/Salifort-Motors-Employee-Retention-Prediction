@@ -11,12 +11,18 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# Local data files
+# Data files
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
 HR_capstone_dataset.csv
 
 # Model artifacts
+models/
 *.pkl
 *.pickle
+*.joblib
 
 # OS/editor files
 .DS_Store

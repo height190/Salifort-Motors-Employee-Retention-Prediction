@@ -1,226 +1,283 @@
 # Salifort Motors Employee Retention Prediction
 
-### Google Advanced Data Analytics Capstone | HR Analytics | Machine Learning | Data-Driven Retention Strategy
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
+![pandas](https://img.shields.io/badge/pandas-Data%20Analysis-150458)
+![Google ADA](https://img.shields.io/badge/Google%20Advanced%20Data%20Analytics-Capstone-4285F4)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
-This project analyzes employee data from Salifort Motors to identify the factors most associated with employee turnover and build a machine learning model that predicts whether an employee is likely to leave. The final output is designed for HR stakeholders who need clear, actionable retention recommendations rather than only model metrics.
+> An end-to-end machine learning and analytics capstone project completed as part of the **Google Advanced Data Analytics Professional Certificate**.
 
-The project follows Google's PACE workflow: **Plan, Analyze, Construct, Execute**.
+This project analyzes employee attrition patterns at Salifort Motors and builds a classification model to help HR teams identify employees at higher risk of leaving. The emphasis is not only on model performance, but also on business interpretation, ethical use, and practical retention recommendations.
 
----
+![Model evaluation placeholder](images/results/random_forest_confusion_matrix.png)
 
-## Portfolio Links
+## Table of Contents
 
-| Artifact | Description |
-|---|---|
-| [Final Notebook](Salifort_Motors_project_lab.ipynb) | Complete EDA, data cleaning, modeling, evaluation, and recommendations |
-| [Executive Summary](<stakeholder_executive_summary.pptx>) | Stakeholder-facing presentation of findings and recommendations |
-| [PACE Strategy Document](<project_strategy_and_reflection.docxs>) | Project planning, analysis strategy, and reflection document |
-| [Visual Assets](assets/images) | Exported charts used in this README |
+- [Project Overview](#project-overview)
+- [Business Problem](#business-problem)
+- [Project Objectives](#project-objectives)
+- [Dataset Description](#dataset-description)
+- [Tech Stack](#tech-stack)
+- [Methodology](#methodology)
+- [EDA Summary](#eda-summary)
+- [Machine Learning Workflow](#machine-learning-workflow)
+- [Model Performance](#model-performance)
+- [Key Findings](#key-findings)
+- [Business Recommendations](#business-recommendations)
+- [Repository Structure](#repository-structure)
+- [Installation](#installation)
+- [How to Run](#how-to-run)
+- [Results](#results)
+- [Future Improvements](#future-improvements)
+- [Author](#author)
+- [License](#license)
 
----
+## Project Overview
+
+Salifort Motors wants to reduce employee turnover by understanding which workplace factors are most associated with attrition. This project follows a full analytics workflow: data cleaning, exploratory analysis, feature engineering, model training, evaluation, and stakeholder recommendations.
+
+The final model is positioned as an HR decision-support tool. It should help prioritize workload reviews, retention conversations, and policy audits, not automate employment decisions.
 
 ## Business Problem
 
-Salifort Motors wants to improve employee satisfaction and reduce employee turnover. Hiring and onboarding replacements is expensive, so the HR department needs to understand what makes employees leave and how to identify at-risk employees early enough to intervene.
+Employee turnover is expensive because it increases hiring, onboarding, training, and productivity costs. Salifort Motors needs to answer:
 
-The central question:
+> Which factors are most likely to make an employee leave, and how can HR intervene earlier?
 
-> What factors are most likely to make an employee leave the company?
+The project focuses on translating employee data into actionable retention strategies around workload, satisfaction, promotion history, evaluation practices, and operational planning.
 
----
+## Project Objectives
 
-## Dataset
-
-The dataset contains **14,999 employee records** and **10 variables** related to satisfaction, performance, workload, tenure, salary, department, promotion history, work accidents, and whether the employee left the company.
-
-Source: [HR Analytics and Job Prediction dataset on Kaggle](https://www.kaggle.com/datasets/mfaisalqureshi/hr-analytics-and-job-prediction?select=HR_comma_sep.csv)
-
-Key fields used in the analysis:
-
-| Field | Meaning |
+| Objective | Outcome |
 |---|---|
-| `satisfaction_level` | Employee-reported satisfaction score from 0 to 1 |
-| `last_evaluation` | Last performance evaluation score |
-| `number_project` | Number of active projects |
-| `average_monthly_hours` | Average monthly working hours |
-| `tenure` | Years spent at the company |
-| `promotion_last_5years` | Whether the employee was promoted in the last five years |
-| `salary` | Low, medium, or high salary group |
-| `left` | Target variable: whether the employee left |
+| Clean and prepare HR data | Standardized fields, removed duplicates, documented data quality |
+| Explore attrition drivers | Identified patterns across workload, tenure, satisfaction, and evaluations |
+| Build predictive models | Compared Logistic Regression, Decision Tree, and Random Forest models |
+| Evaluate model quality | Used precision, recall, F1, accuracy, AUC, confusion matrix, and ROC curve |
+| Translate findings | Developed practical recommendations for HR and operations stakeholders |
 
----
+## Dataset Description
+
+The dataset contains employee-level HR records from the Salifort Motors capstone scenario.
+
+| Field | Description |
+|---|---|
+| `satisfaction_level` | Employee satisfaction score from 0 to 1 |
+| `last_evaluation` | Most recent performance evaluation score |
+| `number_project` | Number of active projects assigned to the employee |
+| `average_monthly_hours` | Average monthly working hours |
+| `tenure` | Years at the company |
+| `work_accident` | Whether the employee had a workplace accident |
+| `promotion_last_5years` | Whether the employee was promoted in the last five years |
+| `department` | Employee department |
+| `salary` | Salary band: low, medium, high |
+| `left` | Target variable: 1 if employee left, 0 if stayed |
+
+The raw CSV is not committed. To reproduce the project, place `HR_capstone_dataset.csv` in `data/raw/`.
+
+## Tech Stack
+
+- Python
+- pandas and NumPy
+- Matplotlib and Seaborn
+- scikit-learn
+- Jupyter Notebook
+- Markdown reporting
 
 ## Methodology
 
-| PACE Stage | What I Did |
+This project uses the Google PACE framework:
+
+| Stage | Work Completed |
 |---|---|
-| Plan | Defined the HR retention problem, stakeholders, target variable, and ethical risks |
-| Analyze | Cleaned the data, checked missing values, duplicates, outliers, and explored turnover patterns |
-| Construct | Built Logistic Regression, Decision Tree, and Random Forest classifiers |
-| Execute | Selected the stronger model, interpreted feature importance, and translated results into HR recommendations |
+| Plan | Defined stakeholder problem, target variable, success metrics, and ethical constraints |
+| Analyze | Cleaned data, checked duplicates/missing values, explored attrition patterns |
+| Construct | Engineered features, split train/test data, trained candidate classifiers |
+| Execute | Evaluated model results and converted findings into HR recommendations |
 
----
+## EDA Summary
 
-## Analysis Story
+Exploratory analysis focused on how attrition changes by workload, tenure, satisfaction, evaluation score, promotion history, and salary band.
 
-The analysis showed that turnover is not evenly random across the workforce. Employees who left were often connected to workload intensity, project count, tenure patterns, and evaluation outcomes.
+Key visual references:
 
-One of the clearest findings was that employees with very high project loads and very long working hours were much more likely to leave. Every employee assigned to seven projects left the company. Employees working roughly 240 to 315 hours per month also formed a visible high-risk group, suggesting potential burnout.
-
-![Project load and monthly hours](assets/images/project_load_vs_hours.png)
-
-Satisfaction was another major signal. Employees who left generally had lower satisfaction scores, especially among shorter-tenure employees. Four-year employees who left had unusually low satisfaction, which may point to a specific career-stage or promotion-related issue.
-
-![Satisfaction by tenure](assets/images/satisfaction_by_tenure.png)
-
-The relationship between working hours and evaluation scores also raised an important management concern: high evaluations appeared connected to high workloads. This suggests that the company may be unintentionally rewarding sustained overwork.
-
-![Monthly hours versus evaluation](assets/images/hours_vs_evaluation.png)
-
----
-
-## Modeling Strategy
-
-This is a binary classification task because the model predicts whether an employee **left** or **stayed**.
-
-I tested three model families:
-
-| Model | Purpose |
+| Visualization | Path |
 |---|---|
-| Logistic Regression | Baseline interpretable model |
-| Decision Tree | Interpretable nonlinear model |
-| Random Forest | Stronger ensemble model for final prediction |
+| Class distribution | `images/eda/class_distribution.png` |
+| Correlation heatmap | `images/eda/correlation_heatmap.png` |
+| Project load vs. monthly hours | `images/eda/project_load_vs_hours.png` |
+| Satisfaction by tenure | `images/eda/satisfaction_by_tenure.png` |
+| Satisfaction vs. monthly hours | `images/eda/satisfaction_vs_monthly_hours.png` |
 
-After the first modeling round, I considered potential data leakage. `satisfaction_level` may not always be available before an employee leaves, and detailed monthly hours may partially reflect employees who already decided to leave or were already being managed out.
+![Correlation heatmap](images/eda/correlation_heatmap.png)
 
-To reduce that risk, I created an `overworked` feature and removed `satisfaction_level` and `average_monthly_hours` from the final modeling round. The final model still performed strongly, which made the results more useful for a realistic HR use case.
+## Machine Learning Workflow
 
----
+The modeling workflow treats attrition as a binary classification problem.
+
+1. Standardize column names and remove duplicate records.
+2. Engineer interpretable HR features such as `overworked`.
+3. Split the dataset into stratified training and test sets.
+4. Train Logistic Regression, Decision Tree, and Random Forest models.
+5. Compare models using precision, recall, F1, accuracy, and AUC.
+6. Review confusion matrix, ROC curve, and feature importance.
+7. Translate model signals into retention recommendations.
+
+The selected portfolio model is a **leakage-aware Random Forest**. It removes `satisfaction_level` and avoids relying directly on raw `average_monthly_hours` because those signals may be less appropriate for early intervention depending on when and how HR collects them.
 
 ## Model Performance
 
-The final selected model was a **Random Forest classifier** after feature engineering.
-
 | Model | Precision | Recall | F1 | Accuracy | AUC |
 |---|---:|---:|---:|---:|---:|
-| Logistic Regression baseline | 0.79 | 0.82 | 0.80 | 0.82 | N/A |
+| Logistic Regression baseline | 0.790 | 0.820 | 0.800 | 0.820 | N/A |
 | Random Forest, initial feature set | 0.964 | 0.920 | 0.941 | 0.981 | 0.956 |
 | Random Forest, leakage-aware feature set | 0.870 | 0.904 | 0.887 | 0.962 | 0.938 |
 
-The leakage-aware Random Forest is the preferred portfolio model because it balances strong predictive performance with more realistic deployment assumptions.
+Recall is prioritized because a false negative means HR may miss an employee who is likely to leave. Precision still matters because interventions should be focused, respectful, and operationally realistic.
 
-![Random forest confusion matrix](assets/images/random_forest_confusion_matrix.png)
+![Feature importance](images/modeling/random_forest_feature_importance.png)
 
-The most important predictors were:
+## Key Findings
 
-1. `last_evaluation`
-2. `number_project`
-3. `tenure`
-4. `overworked`
-
-![Random forest feature importance](assets/images/random_forest_feature_importance.png)
-
----
+- Attrition is concentrated in identifiable employee profiles rather than evenly distributed.
+- High project counts and high monthly hours are strong warning signs for retention risk.
+- Four-year tenure employees show notable satisfaction and attrition patterns, suggesting a career-stage issue.
+- Evaluation scores appear connected with workload intensity, which may indicate performance systems rewarding overwork.
+- Promotion history and salary bands are useful business context for HR policy review.
 
 ## Business Recommendations
 
-Based on the EDA and final model, Salifort Motors should focus retention efforts on workload design, promotion fairness, and evaluation practices.
-
-Recommended actions:
-
-- Cap or closely review employees assigned to unusually high numbers of projects.
-- Investigate why four-year-tenure employees show low satisfaction and elevated turnover risk.
-- Review whether high evaluation scores are overly tied to extreme working hours.
-- Clarify overtime expectations, compensation policies, and time-off norms.
-- Use the model as an early support tool, not as a punitive employee monitoring system.
-- Open team-level discussions about workload pressure and burnout risk.
-
----
-
-## Ethical Considerations
-
-Employee attrition models should be used carefully. A prediction that someone may leave should trigger support, workload review, or career-development conversations, not disciplinary action.
-
-Important safeguards:
-
-- Do not use model predictions as the sole basis for HR decisions.
-- Monitor whether predictions differ unfairly across departments, salary groups, or tenure groups.
-- Revalidate the model with current company data before deployment.
-- Be transparent with stakeholders about possible data leakage and synthetic-data patterns observed in the dataset.
-
----
+| Area | Recommendation | Business Rationale |
+|---|---|---|
+| Workload | Review employees with unusually high project counts and sustained high monthly hours | Reduces burnout risk and improves operational capacity planning |
+| Satisfaction | Use satisfaction trends as a retention signal, especially for mid-tenure employees | Helps identify employees who may be disengaging before resignation |
+| Promotion | Audit promotion patterns for employees around three to five years of tenure | Addresses career stagnation and perceived lack of advancement |
+| Evaluation | Review whether high evaluations are tied to excessive workloads | Prevents a culture where high performance requires unsustainable hours |
+| HR Strategy | Use model outputs to prioritize support conversations, not employment decisions | Keeps the model ethical and useful as a decision-support tool |
 
 ## Repository Structure
 
 ```text
-Salifort-Motors-Employee-Retention-Prediction/
-|
+.
 |-- README.md
 |-- requirements.txt
-|-- Salifort_Motors_project_lab.ipynb
-|-- stakeholder_executive_summary.pptx
-|-- project_strategy_and_reflection.docxs.docx
-|-- assets/
-|   `-- images/
-|       |-- project_load_vs_hours.png
-|       |-- satisfaction_by_tenure.png
-|       |-- satisfaction_vs_monthly_hours.png
-|       |-- hours_vs_evaluation.png
-|       |-- correlation_heatmap.png
-|       |-- random_forest_confusion_matrix.png
-|       `-- random_forest_feature_importance.png
+|-- .gitignore
+|-- LICENSE
+|
+|-- data/
+|   |-- raw/
+|   `-- processed/
+|
+|-- notebooks/
+|   |-- 01_data_cleaning.ipynb
+|   |-- 02_eda.ipynb
+|   |-- 03_modeling.ipynb
+|   `-- 04_model_evaluation.ipynb
+|
+|-- src/
+|   |-- preprocessing.py
+|   |-- feature_engineering.py
+|   |-- train.py
+|   |-- evaluate.py
+|   `-- utils.py
+|
+|-- images/
+|   |-- eda/
+|   |-- modeling/
+|   `-- results/
+|
+|-- reports/
+|   |-- executive_summary.md
+|   |-- business_recommendations.md
+|   `-- final_presentation.md
+|
+`-- docs/
+    |-- methodology.md
+    `-- project_scope.md
 ```
 
----
+## Installation
 
-## How to Run
-
-1. Clone the repository:
+Clone the repository:
 
 ```bash
 git clone https://github.com/height190/Salifort-Motors-Employee-Retention-Prediction.git
 cd Salifort-Motors-Employee-Retention-Prediction
 ```
 
-2. Create and activate a virtual environment:
+Create and activate a virtual environment.
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-3. Install dependencies:
+macOS/Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Add the dataset file to the project root:
+## How to Run
+
+Add the raw dataset:
 
 ```text
-HR_capstone_dataset.csv
+data/raw/HR_capstone_dataset.csv
 ```
 
-5. Launch Jupyter and open the final notebook:
+Run notebooks in order:
 
 ```bash
-jupyter lab Salifort_Motors_project_lab.ipynb
+jupyter lab
 ```
 
----
+Recommended execution order:
 
-## Tools Used
+1. `notebooks/01_data_cleaning.ipynb`
+2. `notebooks/02_eda.ipynb`
+3. `notebooks/03_modeling.ipynb`
+4. `notebooks/04_model_evaluation.ipynb`
 
-- Python
-- pandas, NumPy
-- Matplotlib, Seaborn
-- scikit-learn
-- XGBoost imports for experimentation
-- Jupyter Notebook
-- PowerPoint and Word for stakeholder deliverables
+Generated outputs are written to:
 
----
+```text
+data/processed/
+images/eda/
+images/modeling/
+images/results/
+```
 
-## Next Steps
+## Results
 
-Future improvements could include removing `last_evaluation` to test an even stricter leakage-aware model, validating the model on newer HR data, and clustering employees into retention-risk profiles for more targeted interventions.
+The leakage-aware Random Forest model achieved strong classification performance while preserving a more realistic HR use case. The most important model signals were related to evaluation score, project load, tenure, and overwork.
+
+The business value is a repeatable workflow that helps HR identify where retention risk may be emerging and which operational policies deserve review.
+
+## Future Improvements
+
+- Validate the model on current company data rather than historical capstone data.
+- Test stricter leakage controls by removing `last_evaluation`.
+- Add department-level fairness and error analysis.
+- Tune probability thresholds based on HR outreach capacity.
+- Build a dashboard to monitor workload, tenure, and attrition-risk trends.
+
+## Author
+
+**Minhyuk Lee**  
+Google Advanced Data Analytics Professional Certificate Capstone  
+Portfolio focus: data analytics, machine learning, HR analytics, business recommendations
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
