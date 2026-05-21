@@ -14,7 +14,7 @@ The project follows Google's PACE workflow: **Plan, Analyze, Construct, Execute*
 |---|---|
 | [Final Notebook](Salifort_Motors_project_lab.ipynb) | Complete EDA, data cleaning, modeling, evaluation, and recommendations |
 | [Executive Summary](<stakeholder_executive_summary.pptx>) | Stakeholder-facing presentation of findings and recommendations |
-| [PACE Strategy Document](<project_strategy_and_reflection.docxs.docx>) | Project planning, analysis strategy, and reflection document |
+| [PACE Strategy Document](<project_strategy_and_reflection.docxs>) | Project planning, analysis strategy, and reflection document |
 | [Visual Assets](assets/images) | Exported charts used in this README |
 
 ---
