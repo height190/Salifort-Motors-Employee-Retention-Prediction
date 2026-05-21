@@ -4,7 +4,6 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
 ![pandas](https://img.shields.io/badge/pandas-Data%20Analysis-150458)
 ![Google ADA](https://img.shields.io/badge/Google%20Advanced%20Data%20Analytics-Capstone-4285F4)
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 > An end-to-end machine learning and analytics capstone project completed as part of the **Google Advanced Data Analytics Professional Certificate**.
 
