@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local data files
+HR_capstone_dataset.csv
+
+# Model artifacts
+*.pkl
+*.pickle
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
