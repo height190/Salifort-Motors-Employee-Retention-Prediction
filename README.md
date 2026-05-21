@@ -13,8 +13,8 @@ The project follows Google's PACE workflow: **Plan, Analyze, Construct, Execute*
 | Artifact | Description |
 |---|---|
 | [Final Notebook](Salifort_Motors_project_lab.ipynb) | Complete EDA, data cleaning, modeling, evaluation, and recommendations |
-| [Executive Summary](<Executive Summaries Answer.pptx>) | Stakeholder-facing presentation of findings and recommendations |
-| [PACE Strategy Document](<PACE Strategy Answers.docx>) | Project planning, analysis strategy, and reflection document |
+| [Executive Summary](<stakeholder_executive_summary.pptx>) | Stakeholder-facing presentation of findings and recommendations |
+| [PACE Strategy Document](<project_strategy_and_reflection.docxs.docx>) | Project planning, analysis strategy, and reflection document |
 | [Visual Assets](assets/images) | Exported charts used in this README |
 
 ---
@@ -158,8 +158,8 @@ Salifort-Motors-Employee-Retention-Prediction/
 |-- README.md
 |-- requirements.txt
 |-- Salifort_Motors_project_lab.ipynb
-|-- Executive Summaries Answer.pptx
-|-- PACE Strategy Answers.docx
+|-- stakeholder_executive_summary.pptx
+|-- project_strategy_and_reflection.docxs.docx
 |-- assets/
 |   `-- images/
 |       |-- project_load_vs_hours.png
